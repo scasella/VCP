@@ -18,7 +18,7 @@ class DoctorMap:
                 temp.append(word.capitalize())
         return ' '.join(temp)
 
-    def add_marker(self, name, status, org, link, multiple, lat_long_list):
+    def add_marker(self, name, status, org, link, lat_long_list):
         if lat_long_list[0] == '' or status == 'None': return 
         name, org = self.fix_text(name), self.fix_text(org)
         html="""
@@ -35,9 +35,15 @@ class DoctorMap:
             marker_color = 'orange'
         elif status == 'Expired':
             marker_color = 'red'
+        elif status == 'Multiple':
+            marker_color = 'gray'
         else: 
             marker_color = 'green'
-        icon_choice = 'ok' if marker_color == 'green' else 'info-sign'
+    
+        if marker_color in ['orange', 'red']:
+            icon_choice = 'info-sign'
+        else:
+            icon_choice = 'ok'
         iframe = folium.IFrame(html=html, width=225, height=180)
         popup = folium.Popup(iframe, max_width=2650)
         marker = folium.Marker(lat_long_list,
@@ -48,7 +54,7 @@ class DoctorMap:
             self.group3.add_child(marker)
         elif marker_color is 'orange':
             self.group2.add_child(marker)
-        else:
+        elif marker_color is 'green':
             self.group1.add_child(marker)
 
     def save_open(self):
