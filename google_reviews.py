@@ -1,7 +1,9 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
+import re
 from utils import get_addresses, get_lat_long
 from GRatingsMap import GRatingsMap
 
@@ -10,20 +12,22 @@ class GoogleReviews:
         pass
     
     @classmethod
-    def go_google(cls, quantity):
-        driver = webdriver.Chrome('chromedriver.exe')
+    def go_google(cls, quantity):    
+        chrome_options = Options()  
+        chrome_options.add_argument("--headless")  
+        driver = webdriver.Chrome('chromedriver.exe', chrome_options=chrome_options)
         driver.get('https://www.google.com/search?q=test&oq=test&aqs=chrome..69i57.2306j0j7&sourceid=chrome&ie=UTF-8')
         ratings_dict = {}
         address_dict = get_addresses()
         count = 0
         for key in address_dict:
+            print(int(count/len(address_dict)*100),'%')
             count += 1
-            print(int(count/quantity*100),'%')
-            if count > quantity: break
-            ratings_dict[key] = [x for x in cls._get_google_ratings(key, driver)] #[(text, rating, link)]
+            #if count > quantity: break
+            ratings_dict[key] = [x for x in cls._get_google_ratings(key, driver)] #[(text, rating, link, count)]
         temp_map = GRatingsMap()
         for key, val in ratings_dict.items():
-            temp_map.add_marker(name=address_dict[key][0][3], texts=[x[0] for x in val], ratings=[x[1] for x in val], links=[x[2] for x in val], lat_long_list=get_lat_long((address_dict[key][0][1]+' '+address_dict[key][0][2])))
+            temp_map.add_marker(name=address_dict[key][0][3], texts=[x[0] for x in val], ratings=[x[1] for x in val], links=[x[2] for x in val], counts=[x[3] for x in val], lat_long_list=get_lat_long((address_dict[key][0][1]+' '+address_dict[key][0][2])))
         driver.quit()
         temp_map.save_open()
 
@@ -49,12 +53,21 @@ class GoogleReviews:
                             rating = element['aria-label'][6:9]
                             heading = element.parent.parent.previousSibling.parent.parent.previousSibling.find('a')
                             text, link = heading.text, heading['href']
-                            yield (text, rating, link)
+                            count = element.parent.parent.parent.select('div.slp.f')[0].get_text().replace(' ','').split('-')[1]
+                            count = ''.join([x for x in count if x.isdigit()])
+                            if count == '': count = '0'
+                            yield (text, rating, link, count)
                     else:
-                        yield ('', '', '')
+                        yield ('', '', '', '0')
+                    soup = BeautifulSoup(driver.page_source, 'html.parser')
+                    if (soup.select('span.Fam1ne.EBe2gf')) and (soup.findAll('span', text=re.compile('Google review'))):
+                        rating = soup.select('span.Fam1ne.EBe2gf')[0]['aria-label'][6:9]
+                        count = soup.find('span', text=re.compile('Google review')).get_text().split(' ')[0]
+                        link = 'https://www.google.com/search?q='+'+'.join(search_term.split(' '))
+                        yield ('Google', rating, link, count)
                     break
                 else:
                     time.sleep(1)
 
 
-GoogleReviews.go_google(250)
+GoogleReviews.go_google(_)

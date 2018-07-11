@@ -105,9 +105,9 @@ class DoctorRecords:
                 if correct_row == 'Multiple': return ('Multiple', 'https://apps.colorado.gov/dora/licensing/Lookup/LicenseLookup.aspx')
                 status = rows[correct_row].findAll('td')[3].get_text()
                 link = cls._get_license_link(sesh, response.content, correct_row)
-                except Exception as e:
-                    print(e)
-                    status, link = ('None', 'None')
+            except Exception as e:
+                print(e)
+                status, link = ('None', 'None')
         else:
             return ('None', 'None')
         print(status)
@@ -153,4 +153,4 @@ class DoctorRecords:
         link = 'https://apps.colorado.gov/dora/licensing/Lookup'+license_link
         return link
 
-DoctorRecords.init_records(300)
+DoctorRecords.init_records(500)

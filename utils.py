@@ -14,8 +14,8 @@ def get_addresses():
     return address_dict
 
 def get_lat_long(address):
-    geolocator = Nominatim()
     try:
+        geolocator = Nominatim()
         location = geolocator.geocode(address)
     except:
         return ('','')    
