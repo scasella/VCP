@@ -1,8 +1,5 @@
 import requests
-#from selenium import webdriver
 from collections import namedtuple
-#from selenium.webdriver.common.keys import Keys
-#from selenium.webdriver.common.action_chains import ActionChains
 from bs4 import BeautifulSoup
 import pickle
 import time
@@ -39,7 +36,8 @@ class DoctorRecords:
             if val not in res: res.append(val)
        
         for ind, val in enumerate(res):
-            print(int(ind/len(res)*100), '%')
+            if ind > quantity: break
+            print(int(ind/quantity*100), '%')
             name_list = val[0].split(' ')
             if name_list:
                 sesh = requests.Session()
@@ -47,7 +45,6 @@ class DoctorRecords:
                 name, address = val[0], val[1]+' '+val[2]
                 org = val[3]
                 yield {'name':name, 'address':address, 'org':org, 'status':status, 'link':link}
-        driver.quit()
 
     @classmethod
     def _doctor_lookup(cls, first_name, last_name, sesh):
@@ -153,4 +150,5 @@ class DoctorRecords:
         link = 'https://apps.colorado.gov/dora/licensing/Lookup'+license_link
         return link
 
-DoctorRecords.init_records(500)
+if __name__ == "__main__":
+    DoctorRecords.init_records(200)

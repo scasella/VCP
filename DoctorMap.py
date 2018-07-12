@@ -4,9 +4,9 @@ import webbrowser
 class DoctorMap:
     def __init__(self):
         self.map = folium.Map(location=[39.080960, -108.556699], zoom_start=12, tiles='Stamen Terrain')
-        self.group1 = folium.FeatureGroup(name='Active License')
-        self.group2 = folium.FeatureGroup(name='Conditional License')
-        self.group3 = folium.FeatureGroup(name='Expired License')
+        self.temp_group_1 = []
+        self.temp_group_2 = []
+        self.temp_group_3 = []
 
     def fix_text(self, text):
         text = text.split(' ')
@@ -51,13 +51,21 @@ class DoctorMap:
         icon=folium.Icon(color=marker_color, icon=icon_choice)
         )
         if marker_color is 'red':
-            self.group3.add_child(marker)
+            self.temp_group_3.append(marker)
         elif marker_color is 'orange':
-            self.group2.add_child(marker)
+            self.temp_group_2.append(marker)
         elif marker_color is 'green':
-            self.group1.add_child(marker)
+            self.temp_group_1.append(marker)
 
     def save_open(self):
+        self.group1 = folium.FeatureGroup(name='Active License ({0})'.format(len(self.temp_group_1)))
+        self.group2 = folium.FeatureGroup(name='Conditional License ({0})'.format(len(self.temp_group_2)))
+        self.group3 = folium.FeatureGroup(name='Expired License ({0})'.format(len(self.temp_group_3)))
+
+        [self.group1.add_child(x) for x in self.temp_group_1]
+        [self.group2.add_child(x) for x in self.temp_group_2]
+        [self.group3.add_child(x) for x in self.temp_group_3]
+
         self.map.add_child(self.group1), self.map.add_child(self.group2), self.map.add_child(self.group3), self.map.add_child(folium.map.LayerControl())
         #folium.Circle(radius=160934, location=[39.080960, -108.556699], color='#3186cc', fill=True, fill_color='#3186cc').add_to(self.map)
         self.map.save('DoctorMap.html')

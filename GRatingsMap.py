@@ -4,9 +4,9 @@ import webbrowser
 class GRatingsMap:
     def __init__(self):
         self.map = folium.Map(location=[39.080960, -108.556699], zoom_start=12, tiles='Stamen Terrain')
-        self.group1 = folium.FeatureGroup(name='Good Reputation')
-        self.group2 = folium.FeatureGroup(name='Questionable Reputation')
-        self.group3 = folium.FeatureGroup(name='Poor Reputation')
+        self.temp_group_1 = []
+        self.temp_group_2 = []
+        self.temp_group_3 = []
 
     def fix_text(self, text):
         text = text.split(' ')
@@ -18,8 +18,8 @@ class GRatingsMap:
                 temp.append(word.capitalize())
         return ' '.join(temp)
 
-    def add_marker(self, name, texts, ratings, links, counts, lat_long_list):
-        if texts[0] == '' or lat_long_list[0] == '': return
+    def add_marker(self, name, ratings, links, counts, lat_long_list):
+        if lat_long_list[0] == '': return
         name = self.fix_text(name)
         overall_rtg = self._get_overall_rtg(ratings, counts)
         html="""
@@ -36,9 +36,13 @@ class GRatingsMap:
             rtg = int(x[0])
             for _ in range(rtg):
                 html+='<span class="fa fa-star checked" style="color:orange"></span>'
-            if ('.5' in x): 
+            rem = 4
+            if int(("%.2f" % float(x)).split('.')[1]) >= 50: 
+                html+='<span class="fa fa-star checked" style="color:orange"></span>'
+            elif int(("%.2f" % float(x)).split('.')[1]) >= 25:
                 html+='<span class="fa fa-star-half-o" style="color:orange"></span>'
-            rem = 5 if ('.5' not in x) else 4
+            else:
+                rem = 5
             for _ in range(rem-rtg):
                 html+='<span class="fa fa-star" style="color:lightgray"></span>'
             html+='<span style="color:lightgray">&nbsp{0}</span>'.format(counts[ind])
@@ -57,11 +61,11 @@ class GRatingsMap:
         icon=folium.Icon(color=marker_color, icon=icon_choice)
         )
         if marker_color is 'red':
-            self.group3.add_child(marker)
+            self.temp_group_3.append(marker)
         elif marker_color is 'orange':
-            self.group2.add_child(marker)
+            self.temp_group_2.append(marker)
         else:
-            self.group1.add_child(marker)
+            self.temp_group_1.append(marker)
 
     def _get_overall_rtg(self, ratings, counts):
         total = sum([int(x) for x in counts])
@@ -70,6 +74,14 @@ class GRatingsMap:
         return overall_rtg if (overall_rtg[-2] != '.') else overall_rtg+'0'
 
     def save_open(self):
+        self.group1 = folium.FeatureGroup(name='Good Reputation ({0})'.format(len(self.temp_group_1)))
+        self.group2 = folium.FeatureGroup(name='Questionable Reputation ({0})'.format(len(self.temp_group_2)))
+        self.group3 = folium.FeatureGroup(name='Poor Reputation ({0})'.format(len(self.temp_group_3)))
+
+        [self.group1.add_child(x) for x in self.temp_group_1]
+        [self.group2.add_child(x) for x in self.temp_group_2]
+        [self.group3.add_child(x) for x in self.temp_group_3]
+
         self.map.add_child(self.group1), self.map.add_child(self.group2), self.map.add_child(self.group3), self.map.add_child(folium.map.LayerControl())
         #folium.Circle(radius=160934, location=[39.080960, -108.556699], color='#3186cc', fill=True, fill_color='#3186cc').add_to(self.map)
         self.map.save('GRatingsMap.html')

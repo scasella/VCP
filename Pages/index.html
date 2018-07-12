@@ -2,7 +2,9 @@
 <html>
     <head>
         <title>VA - Third-Party Clinics</title>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>     
     </head>
     <style>
     body {
@@ -24,20 +26,51 @@
         margin-right: auto;
         left: 0;
         right: 0;
-        width: 385px;
-        overflow: auto;
+        width: 330px;
         text-align:center;
         color:white;
+    }
+    img {
+        position: relative;
+        bottom: 5px;
+        padding-right: 1px
+    }
+   ul.navbar-nav {
+        position: relative;
+        top: 8px
+    }
+    div.navbar-header {
+        position:relative;
+        margin-left: 22px !important   
+    }
+    span.navbar-brand {
+        color: #ffffff !important
     }
     </style>
     <body>
         <iframe src="GRatingsMap.html"></iframe>
         <div id="container">
-            <nav class="navbar navbar-dark bg-dark">
-                <a class="navbar-brand">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Seal_of_the_U.S._Department_of_Veterans_Affairs.svg" width="30" height="30" class="d-inline-block align-top">
-                    &nbsp VCP - Ratings View<b><a href='DoctorPage.html' style='color: #0078A8'>Licenses</a></b>&nbsp<span style='color:lightgray'>|</span>&nbsp<b><a href='YelpPage.html' style='color: #0078A8'>Yelp</a></b>
-                </a>
+            <nav class="navbar navbar-inverse">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <span class="navbar-brand">
+                           <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Seal_of_the_U.S._Department_of_Veterans_Affairs.svg" width="30" height="30">
+                        </span>
+                        <span class="navbar-brand">&nbspVCP - Ratings View</a>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-align-justify"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="DoctorPage.html">Medical Licenses</a></li>
+                                <li><a href="HealthgradesPage.html">Healthgrades</a></li>
+                                <li><a href="YelpPage.html">Yelp</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </nav>
         </div>
     </body>
