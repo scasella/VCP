@@ -16,7 +16,7 @@ class Healthgrades:
     def main(cls):
         links_dict = cls._get_doctor_links()
         pickle.dump(links_dict, open('healthgrade_links.p', 'wb'))
-        print('Exported')
+        print('Exported') 
 
         healthgrades_list = [x for x in cls._healthgrades_page(links_dict) if x != 'error'] #[(name, address, rating, malpractice, sanctions, board), ...]
         out_list = []
@@ -34,33 +34,41 @@ class Healthgrades:
         data = get_addresses()
         links_dict = pickle.load(open('healthgrade_links.p', 'rb'))
         #links_dict = {} #{link: (name, address)}
+        address_start_check = [x[1] for _, x in links_dict.items()]
         for _, val in data.items():
-            for name_list in val: 
-                full_name = name_list[0].lower().capitalize()
+            for name_list in val:
                 address = name_list[1]+' '+name_list[2]
-                city = name_list[2]
+                if address in address_start_check: continue
+                full_name = name_list[0].lower().capitalize()
+                city_state = name_list[2]
                 #print(int(ind/len(res)*100), '%')
-                name, link = cls._search_google_links(full_name, city)
+                name, link = cls._search_google_links(full_name, city_state)
                 if link not in links_dict and link != '':
-                    print(link)
+                    print(len(links_dict))
                     links_dict[link] = (name, address)
-                if len(links_dict) > 200: break
-            if len(links_dict) > 200: break
+            #print(len(links_dict))
+            if len(links_dict) > 75: break
         return links_dict
             
     @classmethod
-    def _search_google_links(cls, full_name, city):
-        query = '+'.join((full_name.split(' ')+city.split(' ')))
+    def _search_google_links(cls, full_name, city_state):
+        query = '+'.join(full_name.split(' ')+city_state.split(' '))
         try:
             res = requests.get('https://www.google.com/search?q=healthgrades+'+query)
-        except:
+        except Exception as e:
+            print('Google timeout')
             return ('', '')
         soup = BeautifulSoup(res.content, 'html.parser')
         soup = soup.findAll('a', href=re.compile('https://www.healthgrades.com/providers/'))
+        if not soup: 
+            print('No soup')
+            return ('', '')
         try: 
             link = soup[0]['href'].replace("/url?q=","").split('&')[0]
+            print(full_name, link)
             return (full_name, link)
-        except: 
+        except Exception as e:
+            print(e) 
             return ('', '')
         
     @classmethod

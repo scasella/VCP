@@ -29,8 +29,8 @@ class Yelp:
 
     @classmethod
     def build_map(cls):
-        yelp_list_of_dicts = [x for x in cls.access_links()]
-        pickle.dump(yelp_list_of_dicts, open('yelp_info.p', 'wb'))
+        #yelp_list_of_dicts = [x for x in cls.access_links()]
+        #pickle.dump(yelp_list_of_dicts, open('yelp_info.p', 'wb'))
         yelp_list_of_dicts = pickle.load(open('yelp_info.p', 'rb'))
 
         for ind, d_dict in enumerate(yelp_list_of_dicts):

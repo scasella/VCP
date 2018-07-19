@@ -2,76 +2,82 @@
 <html>
     <head>
         <title>VA - Third-Party Clinics</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>     
-    </head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script> </head>
     <style>
-    body {
-        overflow: hidden;
-    }
-    iframe {
-        position: absolute;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        width: 100%;
+    html, body {
+        margin: 0;
         height: 100%;
+        width: 100%;
     }
-    #container {
-        position: absolute;
-        z-index: 2;
-        top: 2%;
-        margin-left: auto;
-        margin-right: auto;
-        left: 0;
-        right: 0;
-        width: 330px;
-        text-align:center;
-        color:white;
+    body {
+        background-color: #080202;
+        background-image: url("https://www.transparenttextures.com/patterns/black-orchid.png");
     }
-    img {
-        position: relative;
-        bottom: 5px;
-        padding-right: 1px
+    h1 {
+        color: white;
+        font-weight: bold;
+        -webkit-text-stroke: 1px black;
     }
-   ul.navbar-nav {
-        position: relative;
-        top: 8px
+    h3 {
+        color: white;
+        margin-top: -5px;
+        -webkit-text-stroke: 1px black;
     }
-    div.navbar-header {
-        position:relative;
-        margin-left: 22px !important   
+    .card {
+        display:inline-block;
+        background-color: rgba(245, 245, 245, 0.041);
+        border-color: white;
     }
-    span.navbar-brand {
-        color: #ffffff !important
+    .btn {
+        width: 125px !important
     }
     </style>
     <body>
-        <iframe src="GRatingsMap.html"></iframe>
-        <div id="container">
-            <nav class="navbar navbar-inverse">
-                <div class="container-fluid">
-                    <div class="navbar-header">
-                        <span class="navbar-brand">
-                           <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Seal_of_the_U.S._Department_of_Veterans_Affairs.svg" width="30" height="30">
-                        </span>
-                        <span class="navbar-brand">&nbspVCP - Ratings View</a>
-                    </div>
-                    <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="glyphicon glyphicon-align-justify"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="DoctorPage.html">Medical Licenses</a></li>
-                                <li><a href="HealthgradesPage.html">Healthgrades</a></li>
-                                <li><a href="YelpPage.html">Yelp</a></li>
-                            </ul>
-                        </li>
-                    </ul>
+        <div class="container-fluid" style="text-align: center">
+            <div class="row">
+                <div class="col">
                 </div>
-            </nav>
+                <div class="col-8">
+                    <div class="page-header">
+                        <br><h1>VETERANS AFFAIRS</h1><h3>Choice Monitoring</h3>
+                    </div><br>
+                    <img style="width: 150px; height: auto; padding-bottom: -4px" src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Seal_of_the_U.S._Department_of_Veterans_Affairs.svg/1200px-Seal_of_the_U.S._Department_of_Veterans_Affairs.svg.png">
+                    <br><br><br>
+                    <div class="card" style="width: 14rem; text-align: center">
+                        <img class="card-img-top" style="width: 100px; height: auto; display: block; margin-left: auto; margin-right: auto; padding-top: 15px" src="http://diylogodesigns.com/blog/wp-content/uploads/2016/04/google-logo-icon-PNG-Transparent-Background.png">
+                        <div class="card-body">
+                            <!--<h5 class="card-title">Google Reviews</h5>-->
+                            <a href="GPage.html" class="btn btn-dark">Google</a>
+                        </div>
+                    </div>&nbsp;
+                    <div class="card" style="width: 14rem; text-align: center">
+                        <img class="card-img-top" style="width: 108px; height: auto; display: block; margin-left: auto; margin-right: auto; padding-top: 15px" src="https://www.governmentjobs.com/AgencyPages/colorado/agencyImages/download/CO_logo_primary_green_outlines_whiteCO%20no%20background.png">
+                        <div class="card-body">
+                            <!--<h5 class="card-title">Google Reviews</h5>-->
+                            <a href="DoctorPage.html" class="btn btn-dark">Colorado.gov</a>
+                        </div>
+                    </div>&nbsp;
+                    <div class="card" style="width: 14rem; text-align: center">
+                        <img class="card-img-top" style="width: 100px; height: auto; display: block; margin-left: auto; margin-right: auto; padding-top: 15px" src="http://paragonsportsmedicine.com/wp-content/uploads/testimonials-icon-healthgrades.png">
+                        <div class="card-body">
+                            <!--<h5 class="card-title">Google Reviews</h5>-->
+                            <a href="HealthgradesPage.html" class="btn btn-dark">Healthgrades</a>
+                        </div>
+                    </div>&nbsp;
+                    <div class="card" style="width: 14rem; text-align: center">
+                        <img class="card-img-top" style="width: 100px; height: auto; display: block; margin-left: auto; margin-right: auto; padding-top: 15px" src="https://lh3.ggpht.com/F0F4Z965uf3psiHu5h77e-8o-Yla68BEaJI8xLfK-V3JkMK4yQv1WLqqZQCwYhDevKoa=s180">
+                        <div class="card-body">
+                            <!--<h5 class="card-title">Google Reviews</h5>-->
+                            <a href="YelpPage.html" class="btn btn-dark">Yelp</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                </div>
+            </div>
         </div>
     </body>
 </html>

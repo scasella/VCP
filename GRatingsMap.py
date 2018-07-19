@@ -13,7 +13,7 @@ class GRatingsMap:
         temp = []
         for word in text:
             if len(word) < 3:
-                temp.append(word.upper())
+                temp.append(word.upper() if word.lower() != 'of' else word.lower())
             else:
                 temp.append(word.capitalize())
         return ' '.join(temp)

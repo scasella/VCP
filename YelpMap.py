@@ -4,9 +4,9 @@ import webbrowser
 class YelpMap:
     def __init__(self):
         self.map = folium.Map(location=[39.080960, -108.556699], zoom_start=10, tiles='Stamen Terrain')
-        self.group1 = folium.FeatureGroup(name='Good Rating')
-        self.group2 = folium.FeatureGroup(name='Poor Rating')
-        self.group3 = folium.FeatureGroup(name='Bad Rating')
+        self.temp_group_1 = []
+        self.temp_group_2 = []
+        self.temp_group_3 = []
 
     def add_marker(self, name, rating, reviews, link, lat_long_list):
         if rating == '' or lat_long_list[0] == '': return 
@@ -37,13 +37,21 @@ class YelpMap:
         popup=popup,
         icon=folium.Icon(color=marker_color, icon=icon_choice))
         if marker_color is 'red':
-            self.group3.add_child(marker)
+            self.temp_group_3.append(marker)
         elif marker_color is 'orange':
-            self.group2.add_child(marker)
+            self.temp_group_2.append(marker)
         else:
-            self.group1.add_child(marker)
+            self.temp_group_1.append(marker)
 
     def save_open(self):
+        self.group1 = folium.FeatureGroup(name='Good Rating ({0})'.format(len(self.temp_group_1)))
+        self.group2 = folium.FeatureGroup(name='Poor Rating ({0})'.format(len(self.temp_group_2)))
+        self.group3 = folium.FeatureGroup(name='Bad Rating ({0})'.format(len(self.temp_group_3)))
+
+        [self.group1.add_child(x) for x in self.temp_group_1]
+        [self.group2.add_child(x) for x in self.temp_group_2]
+        [self.group3.add_child(x) for x in self.temp_group_3]
+
         self.map.add_child(self.group1), self.map.add_child(self.group2), self.map.add_child(self.group3), self.map.add_child(folium.map.LayerControl())
         #folium.Circle(radius=160934, location=[39.080960, -108.556699], color='#3186cc', fill=True, fill_color='#3186cc').add_to(self.map)
         self.map.save('YelpMap.html')
